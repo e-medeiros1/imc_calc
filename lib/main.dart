@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:imccalc/screens/imc_screen.dart';
 
 void main(List<String> args) {
@@ -14,13 +13,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.deepPurple,
-        scaffoldBackgroundColor: const Color(0xFF202020),
+        // primaryColor: Colors.grey,
+        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         appBarTheme: const AppBarTheme(
-          color: Color(0xFF181818),
+          color: Color(0xFFFFFFFF),
         ),
         colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF616161),
+          accentColor: const Color(0xFFDDE2D0),
         ),
       ),
       home: const ImcScreen(),
