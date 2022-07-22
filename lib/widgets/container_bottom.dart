@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class ContainerBottom extends StatelessWidget {
   String text;
-  ContainerBottom({Key? key, required this.text}) : super(key: key);
+  Widget widget;
+  ContainerBottom({Key? key, required this.text, required this.widget})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +38,14 @@ class ContainerBottom extends StatelessWidget {
             width: double.infinity,
             height: size.height * .25,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   text,
-                  style: const TextStyle(fontSize: 20, color: Colors.black87),
+                  style: const TextStyle(
+                      fontSize: 25, color: Colors.black87, letterSpacing: 1.5),
                 ),
+                widget,
               ],
             ),
           ),
