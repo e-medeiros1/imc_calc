@@ -2,7 +2,9 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 class ContainerMiddle extends StatelessWidget {
-  const ContainerMiddle({Key? key}) : super(key: key);
+  Widget widget;
+
+  ContainerMiddle({Key? key, required this.widget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +26,13 @@ class ContainerMiddle extends StatelessWidget {
                 blurRadius: blur,
                 offset: distance,
                 color: Colors.white,
-                inset: false,
+                // inset: true,
               ),
               BoxShadow(
                 blurRadius: blur,
                 offset: distance,
                 color: const Color(0xFFA7A9AF),
-                inset: false,
+                // inset: true,
               ),
             ],
           ),
@@ -38,12 +40,14 @@ class ContainerMiddle extends StatelessWidget {
             width: double.infinity,
             height: size.height * .40,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Altura',
-                  style: TextStyle(fontSize: 20, color: Colors.black87),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text(
+                  'ALTURA',
+                  style: TextStyle(
+                      fontSize: 30, color: Colors.black87, letterSpacing: 1.5),
                 ),
+                widget
               ],
             ),
           ),
