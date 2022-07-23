@@ -10,8 +10,8 @@ class ContainerBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     const backgroundColor = Color(0xFFE7ECEF);
-    Offset distance = const Offset(20, 20);
-    double blur = 30;
+    Offset distance = const Offset(10, 10);
+    double blur = 20;
 
     return Expanded(
       flex: 1,

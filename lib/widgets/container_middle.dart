@@ -9,8 +9,8 @@ class ContainerMiddle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const backgroundColor = Color(0xFFE7ECEF);
-    Offset distance = const Offset(20, 20);
-    double blur = 30;
+    Offset distance = const Offset(10, 10);
+    double blur = 20;
 
     Size size = MediaQuery.of(context).size;
     return Expanded(
@@ -24,14 +24,16 @@ class ContainerMiddle extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 blurRadius: blur,
-                offset: distance,
+                offset: -distance,
                 color: Colors.white,
+                spreadRadius: 1,
                 // inset: true,
               ),
               BoxShadow(
                 blurRadius: blur,
                 offset: distance,
                 color: const Color(0xFFA7A9AF),
+                spreadRadius: 1,
                 // inset: true,
               ),
             ],

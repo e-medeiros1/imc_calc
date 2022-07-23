@@ -17,14 +17,16 @@ class _ImcScreenState extends State<ImcScreen> {
   bool isFemale = false;
   int altura = 160;
   int peso = 40;
+  bool isPressed = false;
+  int idade = 18;
 
   @override
   Widget build(BuildContext context) {
     const backgroundColor = Color(0xFFE7ECEF);
-    Offset distanceMale = isMale ? const Offset(10, 10) : const Offset(20, 20);
+    Offset distanceMale = isMale ? const Offset(10, 10) : const Offset(15, 15);
     double blurMale = isMale ? 5 : 30;
     Offset distanceFemale =
-        isFemale ? const Offset(10, 10) : const Offset(20, 20);
+        isFemale ? const Offset(10, 10) : const Offset(15, 15);
     double blurFemale = isFemale ? 5 : 30;
     Gender selectedGender;
     Size size = MediaQuery.of(context).size;
@@ -32,7 +34,7 @@ class _ImcScreenState extends State<ImcScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0,
         backgroundColor: backgroundColor,
         title: const Text(
           'IMCCalc',
@@ -242,50 +244,131 @@ class _ImcScreenState extends State<ImcScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //Button 1
-                        ContainerAux(
-                          icon: Icons.remove,
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              peso--;
+                            });
+                          },
+                          child: ContainerAux(icon: Icons.remove),
                         ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        //Button 2
-                        ContainerAux(icon: Icons.add)
+                        const SizedBox(width: 30),
+                        //Buttod 2
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              peso++;
+                            });
+                          },
+                          child: ContainerAux(icon: Icons.add),
+                        )
                       ],
                     ),
                   ],
                 ),
               ),
-              ContainerBottom(text: 'Idade', widget: const Text('')),
+              ContainerBottom(
+                text: 'Idade',
+                widget: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          idade.toString(),
+                          style: const TextStyle(
+                              fontSize: 35,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5),
+                        ),
+                        const Text(
+                          'anos',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black45,
+                              letterSpacing: 1.5),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //Button 1
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              idade--;
+                            });
+                          },
+                          child: ContainerAux(icon: Icons.remove),
+                        ),
+                        const SizedBox(width: 30),
+                        //Button 2
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              idade++;
+                            });
+                          },
+                          child: ContainerAux(icon: Icons.add),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           //Bottom button
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: backgroundColor,
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 30,
-                      offset: Offset(20, 20),
-                      color: Colors.white,
+            child: Listener(
+              onPointerUp: (_) {
+                setState(() {
+                  isPressed = false;
+                });
+              },
+              onPointerDown: (_) {
+                setState(() {
+                  isPressed = true;
+                });
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 100),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: backgroundColor,
+                    boxShadow: isPressed
+                        ? []
+                        : [
+                            const BoxShadow(
+                              blurRadius: 10,
+                              offset: Offset(-5, -5),
+                              color: Colors.white,
+                            ),
+                            const BoxShadow(
+                              blurRadius: 20,
+                              offset: Offset(10, 10),
+                              color: Color(0xFFA7A9AF),
+                            ),
+                          ]),
+                child: const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text(
+                    'Calcular IMC',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
                     ),
-                    BoxShadow(
-                      blurRadius: 30,
-                      offset: Offset(20, 20),
-                      color: Color(0xFFA7A9AF),
-                    )
-                  ]),
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text(
-                  'Calcular IMC',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
                   ),
                 ),
               ),

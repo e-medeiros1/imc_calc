@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
-class ContainerAux extends StatelessWidget {
+class ContainerAux extends StatefulWidget {
   IconData icon;
 
   ContainerAux({
@@ -10,31 +10,55 @@ class ContainerAux extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ContainerAux> createState() => _ContainerAuxState();
+}
+
+class _ContainerAuxState extends State<ContainerAux> {
+  bool isPressed = true;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: const Color(0xFFE7ECEF),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 5,
-            offset: Offset(-10, -10),
-            color: Colors.white,
-            inset: true,
-          ),
-          BoxShadow(
-            blurRadius: 5,
-            offset: Offset(10, 10),
-            color: Color(0xFFA7A9AF),
-            inset: true,
-          ),
-        ],
-      ),
-      width: 70,
-      height: 70,
-      child: Icon(
-        icon,
-        color: Colors.black54,
+    Size size = MediaQuery.of(context).size;
+    return Listener(
+      onPointerUp: (_) {
+        setState(() {
+          isPressed = true;
+        });
+      },
+      onPointerDown: (_) {
+        setState(() {
+          isPressed = false;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 50),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: const Color(0xFFE7ECEF),
+          boxShadow: isPressed
+              ? []
+              : [
+                  const BoxShadow(
+                    blurRadius: 5,
+                    offset: Offset(-4, -4),
+                    color: Colors.white,
+                    inset: true,
+                    spreadRadius: 1,
+                  ),
+                  const BoxShadow(
+                    blurRadius: 5,
+                    offset: Offset(4, 4),
+                    color: Color(0xFFA7A9AF),
+                    inset: true,
+                    spreadRadius: 1,
+                  ),
+                ],
+        ),
+        width: size.width * .17,
+        height: size.height * .08,
+        child: Icon(
+          widget.icon,
+          color: Colors.black54,
+        ),
       ),
     );
   }
