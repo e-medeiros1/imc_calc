@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:imccalc/helper/gender_enum.dart';
+import 'package:imccalc/helper/imc_calculator.dart';
 import 'package:imccalc/screens/result.dart';
 import 'package:imccalc/widgets/container_aux.dart';
 import 'package:imccalc/widgets/container_bottom.dart';
@@ -13,13 +14,15 @@ class ImcScreen extends StatefulWidget {
   State<ImcScreen> createState() => _ImcScreenState();
 }
 
+ImcCalculator imc = ImcCalculator();
+Gender? selectedGender;
+double resultadoImc = 0;
+String interpretacao = '';
+
 class _ImcScreenState extends State<ImcScreen> {
   bool isMale = false;
   bool isFemale = false;
-  int altura = 160;
-  int peso = 40;
   bool isPressed = false;
-  int idade = 18;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,6 @@ class _ImcScreenState extends State<ImcScreen> {
     Offset distanceFemale =
         isFemale ? const Offset(10, 10) : const Offset(15, 15);
     double blurFemale = isFemale ? 5 : 30;
-    Gender selectedGender;
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -180,7 +182,7 @@ class _ImcScreenState extends State<ImcScreen> {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        altura.toString(),
+                        imc.altura.toString(),
                         style: const TextStyle(
                             fontSize: 35,
                             color: Colors.black87,
@@ -197,7 +199,7 @@ class _ImcScreenState extends State<ImcScreen> {
                     ],
                   ),
                   Slider(
-                      value: altura.toDouble(),
+                      value: imc.altura.toDouble(),
                       min: 120,
                       max: 200,
                       thumbColor: backgroundColor,
@@ -205,7 +207,7 @@ class _ImcScreenState extends State<ImcScreen> {
                       activeColor: Colors.black54,
                       onChanged: (double novaAltura) {
                         setState(() {
-                          altura = novaAltura.round();
+                          imc.altura = novaAltura.round();
                         });
                       })
                 ],
@@ -226,7 +228,7 @@ class _ImcScreenState extends State<ImcScreen> {
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            peso.toString(),
+                            imc.peso.toString(),
                             style: const TextStyle(
                                 fontSize: 35,
                                 color: Colors.black87,
@@ -252,7 +254,7 @@ class _ImcScreenState extends State<ImcScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                peso--;
+                                imc.peso--;
                               });
                             },
                             child: ContainerAux(icon: Icons.remove),
@@ -262,7 +264,7 @@ class _ImcScreenState extends State<ImcScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                peso++;
+                                imc.peso++;
                               });
                             },
                             child: ContainerAux(icon: Icons.add),
@@ -283,7 +285,7 @@ class _ImcScreenState extends State<ImcScreen> {
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            idade.toString(),
+                            imc.idade.toString(),
                             style: const TextStyle(
                                 fontSize: 35,
                                 color: Colors.black87,
@@ -309,7 +311,7 @@ class _ImcScreenState extends State<ImcScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                idade--;
+                                imc.idade--;
                               });
                             },
                             child: ContainerAux(icon: Icons.remove),
@@ -319,7 +321,7 @@ class _ImcScreenState extends State<ImcScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                idade++;
+                                imc.idade++;
                               });
                             },
                             child: ContainerAux(icon: Icons.add),
@@ -337,10 +339,21 @@ class _ImcScreenState extends State<ImcScreen> {
               child: Listener(
                 onPointerUp: (_) {
                   setState(() {
+                    resultadoImc = imc.calculaImc();
+                    if (selectedGender != null) {
+                      if (selectedGender == Gender.Masculino) {
+                        interpretacao = imc.interpretacaoMasculina();
+                      } else if (selectedGender == Gender.Feminino) {
+                        interpretacao = imc.interpretacaoFeminina();
+                      }
+                    }
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (contenxt) => const Result()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (contenxt) => Result(),
+                      ),
+                    );
+
                     isPressed = false;
                   });
                 },
@@ -388,4 +401,24 @@ class _ImcScreenState extends State<ImcScreen> {
       ),
     );
   }
+}
+
+double? get resultado {
+  return resultadoImc;
+}
+
+String? get interpreta {
+  return interpretacao;
+}
+
+set setPeso(int novoPeso) {
+  imc.peso = novoPeso;
+}
+
+set setAltura(int novaAltura) {
+  imc.altura = novaAltura;
+}
+
+set setIdade(int novaIdade) {
+  imc.idade = novaIdade;
 }

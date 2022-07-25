@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:imccalc/helper/imc_calculator.dart';
+
 import 'package:imccalc/screens/imc_screen.dart';
 
 class Result extends StatefulWidget {
-  const Result({Key? key}) : super(key: key);
+  Result({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Result> createState() => _ResultState();
@@ -10,6 +14,13 @@ class Result extends StatefulWidget {
 
 class _ResultState extends State<Result> {
   bool isPressed = false;
+  ImcCalculator imc = ImcCalculator();
+
+  reseta() {
+    setPeso = 50;
+    setIdade = 20;
+    setAltura = 160;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +44,24 @@ class _ResultState extends State<Result> {
                     color: Colors.black87,
                     fontWeight: FontWeight.bold),
               ),
-              const Text(
-                '18.4',
-                style: TextStyle(
+              Text(
+                resultadoImc.toStringAsFixed(1),
+                style: const TextStyle(
                     fontSize: 60,
                     color: Colors.black87,
                     fontWeight: FontWeight.bold),
               ),
-              const Text(
-                'Você está abaixo do peso',
-                style: TextStyle(fontSize: 20, color: Colors.black87),
+              Text(
+                interpretacao,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20, color: Colors.black87),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Listener(
                   onPointerUp: (_) {
                     setState(() {
+                      reseta();
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
